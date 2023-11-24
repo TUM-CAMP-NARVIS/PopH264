@@ -85,6 +85,9 @@ protected:
 	//		gotta work out a way to figure out what we can discard
 	TEncoderFrameMeta	GetFrameMeta(FrameNumber_t FrameNumber);
 
+	// ue: proposal -> clean all frames older than framenumber - X
+	void                PurgeFrameMeta(int64_t FrameNumber);
+
 	bool				HasEncodingFinished()	{	return mHasOutputEndOfStream || mHasOutputError;	}
 	
 private:

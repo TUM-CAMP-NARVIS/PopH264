@@ -205,7 +205,10 @@ void MediaFoundation::TEncoder::UpdateThread()
 			return;
 
 		FlushOutputFrames();
-		FlushInputFrames();
+		{
+			std::scoped_lock Lock(mInputFrameLock);
+			FlushInputFrames();
+		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(30));
 	}
@@ -384,6 +387,8 @@ bool MediaFoundation::TEncoder::FlushOutputFrame()
 		OnOutputPacket(Packet);
 		if (EndOfStream)
 			OnFinished();
+		// purge frame meta older than X
+		this->PurgeFrameMeta(FrameNumber);
 		return true;
 	}
 	catch (std::exception& e)
