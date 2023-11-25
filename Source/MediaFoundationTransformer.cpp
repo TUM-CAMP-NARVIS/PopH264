@@ -1713,8 +1713,7 @@ bool MediaFoundation::TTransformer::PopFrame(std::vector<uint8_t>& Data,int64_t&
 		std::Debug <<  e.what() << std::endl;
 	}
 
-	// ueck: uncommented following line
-	output_buffer.pSample->Release();
+	//output_buffer.pSample->Release();
 
 	//	assume there might be more packets
 	return true;

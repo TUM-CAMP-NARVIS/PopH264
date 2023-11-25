@@ -204,16 +204,13 @@ void MediaFoundation::TEncoder::UpdateThread()
 		if ( !Transformer )
 			return;
 
-		{
-			std::scoped_lock Lock(mOutputFrameLock);
-			FlushOutputFrames();
-		}
+		FlushOutputFrames();
 		{
 			std::scoped_lock Lock(mInputFrameLock);
 			FlushInputFrames();
 		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(30));
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 }
 
