@@ -47,6 +47,7 @@ MediaFoundation::TEncoderParams::TEncoderParams(json11::Json& Options)
 	SetInt(POPH264_ENCODER_KEY_PROFILELEVEL, mProfileLevel);
 	SetInt(POPH264_ENCODER_KEY_AVERAGEKBPS, mAverageKbps);
 	SetBool(POPH264_ENCODER_KEY_VERBOSEDEBUG, mVerboseDebug);
+	SetBool(POPH264_ENCODER_KEY_REALTIME, mLowLatencyMode);
 }
 
 
@@ -99,6 +100,7 @@ void MediaFoundation::TEncoder::SetOutputFormat(TTransformer& Transformer,SoyPix
 		Result = MediaType->SetGUID(MF_MT_SUBTYPE, FormatGuid);
 		IsOkay(Result, "MediaType->SetGUID(MF_MT_SUBTYPE)");
 	}
+
 
 	//	setup required encoder things
 	//	kbps required, must be >0
@@ -156,6 +158,10 @@ void MediaFoundation::TEncoder::SetOutputFormat(TTransformer& Transformer,SoyPix
 		IsOkay(Result, "Set encoder quality CODECAPI_AVEncCommonQuality");
 	}
 	*/
+
+	// ue: added for realtime streaming
+
+
 	Transformer.SetOutputFormat(*MediaType);
 }
 
@@ -177,6 +183,11 @@ void MediaFoundation::TEncoder::SetFormat(SoyPixelsMeta ImageMeta)
 	std::shared_ptr<MediaFoundation::TTransformer> Transformer;
 	Transformer.reset(new MediaFoundation::TTransformer(TransformerCategory::VideoEncoder, std::span(Inputs), std::span(Outputs), mParams.mVerboseDebug ));
 		
+	// ue: added for realtime encoding
+	if (mParams.mLowLatencyMode) {
+		Transformer->SetEncLowLatencyMode(true);
+	}
+
 	SetOutputFormat( *Transformer, ImageMeta );
 	SetInputFormat( *Transformer, ImageMeta, InputFormat );
 

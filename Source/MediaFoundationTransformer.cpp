@@ -1005,7 +1005,26 @@ void MediaFoundation::TTransformer::LockTransformer(std::function<void()> Execut
 	//	docs suggest we just unlock as we need it
 }
 
-void MediaFoundation::TTransformer::SetLowLatencyMode(bool Enable)
+void MediaFoundation::TTransformer::SetEncLowLatencyMode(bool Enable)
+{
+	std::Debug << __PRETTY_FUNCTION__ << "start: Transformer refcount now " << mTransformer.GetReferenceCount() << std::endl;
+
+	//	get interface
+	Soy::AutoReleasePtr<ICodecAPI> mpCodecAPI;
+	auto Result = mTransformer->QueryInterface(IID_PPV_ARGS(&mpCodecAPI.mObject));
+	IsOkay(Result, "Failed to get CodecAPI interface");
+
+	VARIANT var;
+	var.vt = VT_BOOL;
+	var.boolVal = Enable ? VARIANT_TRUE : VARIANT_FALSE;
+
+	Result = mpCodecAPI->SetValue(&CODECAPI_AVLowLatencyMode, &var);
+	IsOkay(Result, "Setting CODECAPI_AVLowLatencyMode");
+
+	std::Debug << __PRETTY_FUNCTION__ << "end: Transformer refcount now " << mTransformer.GetReferenceCount() << std::endl;
+}
+
+void MediaFoundation::TTransformer::SetDecLowLatencyMode(bool Enable)
 {
 	std::Debug << __PRETTY_FUNCTION__ << "start: Transformer refcount now " << mTransformer.GetReferenceCount() << std::endl;
 
@@ -1015,9 +1034,6 @@ void MediaFoundation::TTransformer::SetLowLatencyMode(bool Enable)
 	IsOkay(Result, "Failed to get CodecAPI interface");
 
 	VARIANT var; 
-	//	gr: docs say VT_BOOL, but we get an error saying its expecting ui4/long/32bit
-	//var.vt = VT_BOOL;
-	//var.boolVal = Enable ? VARIANT_TRUE : VARIANT_FALSE;
 	var.vt = VT_UI4;
 	var.ulVal = Enable ? 1 : 0;
 

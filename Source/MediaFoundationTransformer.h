@@ -97,7 +97,8 @@ public:
 	bool			IsInputFormatSet() { return mInputFormatSet; }
 	bool			IsOutputFormatSet() { return mOutputFormatSet; }
 	
-	void			SetLowLatencyMode(bool Enable);
+	void			SetEncLowLatencyMode(bool Enable);
+	void			SetDecLowLatencyMode(bool Enable);
 	void			SetLowPowerMode(bool Enable);
 	void			SetDropBadFrameMode(bool Enable);
 

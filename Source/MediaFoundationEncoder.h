@@ -31,6 +31,7 @@ public:
 	size_t	mProfileLevel = 30;
 	bool	mVerboseDebug = false;
 	bool	mBufferAllInputs = true;	//	save all inputs to a queue
+	bool    mLowLatencyMode = false;
 };
 
 

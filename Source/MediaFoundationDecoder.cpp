@@ -70,7 +70,7 @@ void MediaFoundation::TDecoder::CreateTransformer(ContentType::Type ContentType)
 
 	try
 	{
-		mTransformer->SetLowLatencyMode(!mParams.mAllowBuffering);
+		mTransformer->SetDecLowLatencyMode(!mParams.mAllowBuffering);
 	}
 	catch (std::exception& e)
 	{
