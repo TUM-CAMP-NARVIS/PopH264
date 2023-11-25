@@ -322,7 +322,7 @@ void MediaFoundation::TEncoder::AddPendingFrame(const SoyPixelsImpl& Pixels,size
 	Frame.mMeta = Meta;
 	Frame.mPixels.reset( new SoyPixels(Pixels) );
 	mPendingInputFrames.push_back(Frame);
-	std::Debug << "Queued frame, now " << mPendingInputFrames.size() << " pending" << std::endl;
+	//std::Debug << "Queued frame, now " << mPendingInputFrames.size() << " pending" << std::endl;
 }
 
 

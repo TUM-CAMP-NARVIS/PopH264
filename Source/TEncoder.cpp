@@ -79,17 +79,17 @@ void PopH264::TEncoder::PurgeFrameMeta(int64_t FrameNumber) {
 	if (OldestFrameNumber > NumFramesToKeep) {
 		OldestFrameNumber -= NumFramesToKeep;
 	}
-	size_t nRemoved{ 0 };
+	//size_t nRemoved{ 0 };
 	for (auto it = mFrameMetas.begin(); it!=mFrameMetas.end();) {
 		if (it->first < OldestFrameNumber) {
 			it = mFrameMetas.erase(it);
-			++nRemoved;
+			//++nRemoved;
 		}
 		else {
 			++it;
 		}
 	}
-	if (nRemoved > 0) {
-		std::Debug << "Removed " << nRemoved << " FrameMetas" << std::endl;
-	}
+	//if (nRemoved > 0) {
+	//	std::Debug << "Removed " << nRemoved << " FrameMetas" << std::endl;
+	//}
 }
