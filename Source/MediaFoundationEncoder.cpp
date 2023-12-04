@@ -325,13 +325,15 @@ void MediaFoundation::TEncoder::AddPendingEndOfStream()
 }
 
 
+
+
 void MediaFoundation::TEncoder::AddPendingFrame(const SoyPixelsImpl& Pixels,size_t FrameNumber, const std::string& Meta, bool Keyframe)
 {
 	FrameImage_t Frame;
 	Frame.mFrameNumber = FrameNumber;
 	Frame.mKeyframe = Keyframe;
 	Frame.mMeta = Meta;
-	Frame.mPixels.reset( new SoyPixels(Pixels) );
+	Frame.mPixels.reset( new SoyPixels(Pixels));
 	mPendingInputFrames.push_back(Frame);
 	//std::Debug << "Queued frame, now " << mPendingInputFrames.size() << " pending" << std::endl;
 }
@@ -363,6 +365,8 @@ bool MediaFoundation::TEncoder::FlushInputFrames()
 	}
 	return true;
 }
+
+
 
 bool MediaFoundation::TEncoder::FlushOutputFrame()
 {
