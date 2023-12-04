@@ -75,7 +75,10 @@ PopH264::TEncoderFrameMeta PopH264::TEncoder::GetFrameMeta(FrameNumber_t FrameNu
 
 void PopH264::TEncoder::PurgeFrameMeta(int64_t FrameNumber) {
 	const int64_t NumFramesToKeep{5};
-	auto OldestFrameNumber = std::max(0, FrameNumber - NumFramesToKeep);
+	auto OldestFrameNumber = FrameNumber - NumFramesToKeep;	
+	if (OldestFrameNumber < 0) {
+		OldestFrameNumber = 0;
+	}
 	size_t nRemoved{ 0 };
 	for (auto it = mFrameMetas.begin(); it!=mFrameMetas.end();) {
 		if (it->first < OldestFrameNumber) {
